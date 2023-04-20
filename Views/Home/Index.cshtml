@@ -1,0 +1,33 @@
+﻿<h1>Crypto Marketplace</h1>
+<form method = "get" action="">
+<input type="text" placeholder=" Search by symbol name" name = "symbol">
+<button type = "submit">Search</button>
+</form>
+<table class="table table-striped">
+    <tr>
+        <th>Symbol</th>
+        <th>Last Price </th>
+        <th>Open Price</th>
+        <th>Price Change</th>
+        <th>Open Time</th>
+        <th>Close Time</th>
+        <th>High Price</th>
+
+
+    </tr>
+        @foreach (var item in ViewBag.data)
+        {
+            <tr id = "@item.Symbol" >
+                <td>@item.Symbol</td>
+                <td> @item.LastPrice $</td>
+                <td> @item.OpenPrice $</td>
+                <td> @item.PriceChangePercent %</td>
+                <td> @item.OpenTime </td>
+                <td> @item.CloseTime </td>
+                <td>@item.HighPrice $</td>
+            </tr>
+        }
+    
+
+    </table>
+
