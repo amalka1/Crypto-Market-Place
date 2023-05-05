@@ -1,10 +1,10 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using RestApi.Models;
-
+using System.Net.Http;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-
+using System.Text.Json;
 
 namespace RestApi.Controllers;
 
@@ -16,8 +16,86 @@ public class HomeController : Controller
     {
         _logger = logger;
     }
+    // public ActionResult Index()
+    //     {
+    //         return View();
+    //     }
 
+        List<TickerData> list = new List<TickerData>();
+         public async Task<JsonResult> TickersData()
+{
+    using (var client = new HttpClient())
+    {
+        var response = await client.GetAsync("https://api.binance.com/api/v3/ticker/24hr");
+        var content = await response.Content.ReadAsStringAsync();
+        var tickerData = JsonConvert.DeserializeObject<List<TickerData>>(content);
+        var firstElement = tickerData.First();
+        return Json(firstElement.PriceChange);
+       
+    }
+}
 
+        private class TickerData
+        {
+            [JsonProperty("symbol")]
+            public string? Symbol { get; set; }
+
+            [JsonProperty("lastPrice")]
+            public decimal LastPrice { get; set; }
+
+            [JsonProperty("priceChange")]
+            public decimal PriceChange { get; set; }
+
+            [JsonProperty("highPrice")]
+            public decimal HighPrice { get; set; }
+
+            [JsonProperty("lowPrice")]
+            public decimal LowPrice { get; set; }
+        }
+
+        // private class DataPoint
+        // {
+        //     [JsonProperty("x")]
+        //     public DateTime X { get; set; }
+
+        //     [JsonProperty("y")]
+        //     public decimal Y { get; set; }
+        // }
+    // public ActionResult Index()
+    //     {
+    //         return View();
+    //     }
+
+    //     public async Task<JsonResult> TickerData()
+    //     {
+    //         using (var client = new HttpClient())
+    //         {
+    //             var response = await client.GetAsync("https://api.binance.com/api/v3/ticker/24hr");
+    //             var content = await response.Content.ReadAsStringAsync();
+    //             return Json(content);
+    //         }
+    //     }
+
+    // public ActionResult Index()
+    //     {
+    //         return View();
+    //     }
+
+    //     // Action method that returns real-time data as JSON
+    //     public async Task<IActionResult> TickerData()
+    //     {
+    //         using (var client = new HttpClient())
+    //         {
+    //             var response = await client.GetAsync("https://api.binance.com/api/v3/ticker/24hr");
+    //             var content = await response.Content.ReadAsStringAsync();
+    //             var options = new JsonSerializerOptions
+    //             {
+    //                 PropertyNameCaseInsensitive = true,
+    //             };
+    //             var data = System.Text.Json.JsonSerializer.Deserialize<dynamic>(content, options);
+    //             return Json(data);
+    //         }
+    //     }
     public ActionResult Index(string symbol)
     {
         // Define the API endpoint and parameters

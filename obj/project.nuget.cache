@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "8go08v3JF9FituShPhpk7Wn47aLgLMuy2C6BoMmjbKe1OuMtSlmdiJutoxu7ZylByJDOuMfT2rwVDzMC38NTmQ==",
+  "dgSpecHash": "hPIY2snTTydTaU1dL6Clf9Wgn9DdBxDPvI6B+q3fTc76VX+JvhLv+xwz+zTScbTCxxkdlTe9NJ4cCiaiFsHwSw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\amari\\OneDrive\\Desktop\\Learn C#\\Learn3\\RestApi\\RestApi.csproj",
+  "projectFilePath": "C:\\Users\\amari\\OneDrive\\Desktop\\Learn C#\\Learn3\\Amarildo-Task\\RestApi\\RestApi.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\amari\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
   ],

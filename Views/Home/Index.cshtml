@@ -1,33 +1,221 @@
-﻿<h1>Crypto Marketplace</h1>
-<form method = "get" action="">
-<input type="text" placeholder=" Search by symbol name" name = "symbol">
-<button type = "submit">Search</button>
-</form>
-<table class="table table-striped">
-    <tr>
-        <th>Symbol</th>
-        <th>Last Price </th>
-        <th>Open Price</th>
-        <th>Price Change</th>
-        <th>Open Time</th>
-        <th>Close Time</th>
-        <th>High Price</th>
+﻿<div class = "first">
 
-
-    </tr>
-        @foreach (var item in ViewBag.data)
-        {
-            <tr id = "@item.Symbol" >
-                <td>@item.Symbol</td>
-                <td> @item.LastPrice $</td>
-                <td> @item.OpenPrice $</td>
-                <td> @item.PriceChangePercent %</td>
-                <td> @item.OpenTime </td>
-                <td> @item.CloseTime </td>
-                <td>@item.HighPrice $</td>
+    <div class="topContainer">
+        <div class="chartSticky" style="width: 100%; height: 400px;">
+            <canvas id="myChart" style="width: 100%; height: 400px"></canvas>
+        </div>
+    </div>
+    <div class="tableWrapper">
+        <div class="tableSticky">
+            <h1>Crypto Marketplace</h1>
+            <form method = "get" action="">
+                <input type="text" placeholder=" Search by symbol name" name = "symbol">
+                <button type = "submit">Search</button>
+            </form>
+            <table class="table table-striped">
+                <tr>
+                    <th>Symbol</th>
+                    <th>Last Price </th>
+                    <th>Open Price</th>
+                    <th>Price Change</th>
+                    <th>Open Time</th>
+                    <th>Close Time</th>
+                    <th>High Price</th>
+                </tr>
+                @foreach (var item in ViewBag.data)
+                {
+                    <tr id = "@item.Symbol" >
+                        <td>@item.Symbol</td>
+                        <td> @item.LastPrice $</td>
+                        <td> @item.OpenPrice $</td>
+                        <td> @item.PriceChangePercent %</td>
+                        <td> @item.OpenTime </td>
+                        <td> @item.CloseTime </td>
+                        <td>@item.HighPrice $</td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/0.7.7/chartjs-plugin-zoom.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script></script>
+}
+    @* <table>
+        <thead>
+            <tr>
+                <th>Symbol</th>
+                <th>Last Price</th>
+                <th>24h Change</th>
+                <th>24h High</th>
+                <th>24h Low</th>
             </tr>
-        }
-    
-
+        </thead>
+        <tbody id="ticker-table-body">
+        </tbody>
     </table>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/websocketpp/0.8.1/websocketpp.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(function () {
+            var ws = new WebSocket("wss://stream.binance.com:9443/ws/!ticker@arr");
+            ws.onmessage = function (evt) {
+                var data = JSON.parse(evt.data);
+                var tbody = $('#ticker-table-body');
+                for (var i = 0; i < data.length; i++) {
+                    var symbol = data[i].s;
+                    var lastPrice = data[i].c;
+                    var change = data[i].P;
+                    var high = data[i].h;
+                    var low = data[i].l;
+                    var tr = $('<tr>').appendTo(tbody);
+                    $('<td>').text(symbol).appendTo(tr);
+                    $('<td>').text(lastPrice).appendTo(tr);
+                    $('<td>').text(change).appendTo(tr);
+                    $('<td>').text(high).appendTo(tr);
+                    $('<td>').text(low).appendTo(tr);
+                }
+            };
+</div>
+        });
+    </script> *@
+    @* <h2>Binance Ticker Data</h2>
+
+<table id="tickerTable">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Last Price</th>
+            <th>Change</th>
+            <th>High</th>
+            <th>Low</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var tickerTable = $('#tickerTable tbody');
+            setInterval(function () {
+                $.getJSON('/Ticker/TickerData', function (data) {
+                    tickerTable.empty();
+                    $.each(data, function (index, item) {
+                        tickerTable.append('<tr><td>' + item.symbol + '</td><td>' + item.lastPrice + '</td><td>' + item.priceChange + '</td><td>' + item.highPrice + '</td><td>' + item.lowPrice + '</td></tr>');
+                    });
+                });
+            }, 5000);
+        });
+    </script>
+} *@
+@* @{
+    ViewBag.Title = "Real-time Data Example";
+}
+
+<h2>Real-time Data Example</h2>
+
+<table id="tickerTable">
+    <thead>
+        <tr>
+            <th>Symbol</th>
+            <th>Last Price</th>
+            <th>Price Change</th>
+            <th>High Price</th>
+            <th>Low Price</th>
+        </tr>
+    </thead>
+    <tbody>
+    </tbody>
+</table>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(function () {
+            var tickerTable = $('#tickerTable tbody');
+            setInterval(function () {
+                $.getJSON('/Home/TickerData', function (data) {
+                    var json = JSON.parse(data);
+                    tickerTable.empty();
+                    $.each(json, function (index, item) {
+                        tickerTable.append('<tr><td>' + item.symbol + '</td><td>' + item.lastPrice + '</td><td>' + item.priceChange + '</td><td>' + item.highPrice + '</td><td>' + item.lowPrice + '</td></tr>');
+                    });
+                });
+            }, 2000);
+        });
+    </script>
+} *@
+
+@* @{
+    ViewBag.Title = "Real-time Data Example";
+}
+
+<h2>Real-time Data Example</h2>
+
+<div style="width: 800px; height: 400px;">
+    <canvas id="tickerChart"></canvas>
+</div>
+
+@section scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script>
+        $(function () {
+            var tickerChart = new Chart($('#tickerChart'), {
+                type: 'line',
+                data: {
+                    datasets: [{
+                        label: 'Last Price',
+                        data: []
+                    }]
+                },
+                options: {
+                    scales: {
+                        xAxes: [{
+                            type: 'time',
+                            time: {
+                                unit: 'second'
+                            },
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Time'
+                            }
+                        }],
+                        yAxes: [{
+                            display: true,
+                            scaleLabel: {
+                                display: true,
+                                labelString: 'Price'
+                            }
+                        }]
+                    }
+                }
+            });
+
+            setInterval(function () {
+                $.getJSON('/Home/TickerData', function (data) {
+                    tickerChart.data.datasets[0].data
+                dataPoints = dataPoints.concat(data);
+                        tickerChart.data.datasets[0].data = dataPoints;
+                        tickerChart.update();
+                    });
+                }, 1000);
+            });
+    </script>
+} *@
+
+
+
+
+
 
